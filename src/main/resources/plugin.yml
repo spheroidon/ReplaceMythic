@@ -1,0 +1,6 @@
+name: ReplaceMythic
+version: '${version}'
+
+main: com.spheroidon.replaceMythic.ReplaceMythic
+api-version: '26.2'
+load: POSTWORLD

@@ -1,0 +1,6 @@
+# See list of valid vanilla items at https://jd.papermc.io/paper/org/bukkit/Material.html
+
+Debug: false
+ReplaceItems:
+  EXAMPLE_VANILLA_ITEM:
+    MythicID: ExampleMythicItem
