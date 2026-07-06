@@ -8,8 +8,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ReplaceMythic extends JavaPlugin implements Listener {
 
@@ -35,17 +39,23 @@ public final class ReplaceMythic extends JavaPlugin implements Listener {
     }
 
     public ItemStack getReplacingItem(ItemStack item) {
-        if(debug) {
-            getLogger().info("Replacing item: " + item.toString());
-        }
-        FileConfiguration config = getConfig();
         if(item == null) {
             return null;
         }
+        if(debug) {
+            getLogger().info("Replacing item: " + item);
+        }
+        if(MythicBukkit.inst().getItemManager().getMythicTypeFromItem(item) != null) {
+            if(debug) {
+                getLogger().info("Item is already Mythic item!");
+            }
+            return item;
+        }
+        FileConfiguration config = getConfig();
         String resultItemID = config.getString("ReplaceItems."+item.getType()+".MythicID");
         if(resultItemID == null) {
             if(debug) {
-                getLogger().warning("Item should not be replaced!");
+                getLogger().info("Item should not be replaced!");
             }
             return item;
         }
@@ -105,5 +115,19 @@ public final class ReplaceMythic extends JavaPlugin implements Listener {
                 getLogger().warning("Could not replace item from PlayerDropItemEvent: item is null.");
             }
         }
+    }
+
+    @EventHandler
+    public void onLootGenerate(LootGenerateEvent event) {
+        if(debug) {
+            getLogger().info("Replacing items from LootGenerateEvent!");
+        }
+        List<ItemStack> items = event.getLoot();
+        List<ItemStack> newItems = new ArrayList<>();
+        for(ItemStack item : items) {
+            ItemStack newItem = getReplacingItem(item);
+            newItems.add(newItem);
+        }
+        event.setLoot(newItems);
     }
 }
