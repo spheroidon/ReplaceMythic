@@ -17,6 +17,8 @@ import java.util.List;
 
 public final class ReplaceMythic extends JavaPlugin implements Listener {
 
+    private static final String REMOVE_ID = "NONE";
+
     private boolean debug;
 
     @Override
@@ -58,6 +60,12 @@ public final class ReplaceMythic extends JavaPlugin implements Listener {
                 getLogger().info("Item should not be replaced!");
             }
             return item;
+        }
+        if(resultItemID.equals(REMOVE_ID)) {
+            if(debug) {
+                getLogger().info("Item is set to NONE, removing it!");
+            }
+            return new ItemStack(Material.AIR);
         }
         ItemStack resultItem = MythicBukkit.inst().getItemManager().getItemStack(resultItemID, item.getAmount());
         if(resultItem == null) {
