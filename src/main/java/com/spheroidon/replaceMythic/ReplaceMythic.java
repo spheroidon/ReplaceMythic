@@ -1,6 +1,7 @@
 package com.spheroidon.replaceMythic;
 
 import io.lumine.mythic.bukkit.MythicBukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
